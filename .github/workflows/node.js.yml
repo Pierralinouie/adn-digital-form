@@ -2,41 +2,37 @@ name: Deploy React App
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+        env:
+          CI: false
+      - uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./build
 
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.x'
-        cache: 'npm'
-
-    - name: Create .npmrc
-      run: |
-        echo "@fortawesome:registry=https://npm.fontawesome.com/" > .npmrc
-        echo "//npm.fontawesome.com/:_authToken=${{ secrets.FONTAWESOME_TOKEN }}" >> .npmrc
-
-    - name: Install dependencies
-      run: |
-        npm install
-      env:
-        CI: false
-
-    - name: Build
-      run: |
-        npm run build
-      env:
-        CI: false
-
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: build
-        branch: gh-pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v2
+        id: deployment
