@@ -1,3 +1,6 @@
+import MarketingReport from './MarketingReport';
+
+
 import React, { useState } from 'react';
 
 const FormSection = ({ title, children, isOpen, onToggle }) => (
