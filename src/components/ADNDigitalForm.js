@@ -261,3 +261,26 @@ const ADNDigitalForm = () => {
 };
 
 export default ADNDigitalForm;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log('Données soumises:', formData);
+  // Ajoutez ici la logique de soumission
+};
+
+const generateReport = () => {
+  setShowReport(true);
+  // Calculs et analyses pour le rapport
+  const analysisData = {
+    summary: {
+      identityStrength: {
+        score: calculateScore(formData),
+        recommendations: generateRecommendations(formData)
+      }
+    }
+  };
+  return analysisData;
+};
+
+// Dans les boutons :
+<button onClick={handleSubmit}>Enregistrer</button>
+<button onClick={generateReport}>Générer Rapport</button>
