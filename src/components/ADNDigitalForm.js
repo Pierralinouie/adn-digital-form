@@ -72,24 +72,78 @@ const FileUpload = ({ label, helperText = null }) => {
   );
 };
 
+// Composant MarketingReport
 const MarketingReport = ({ analysisData }) => {
   return (
-    <div className="border rounded-lg p-6">
-      <h2 className="text-xl font-bold mb-4">Rapport d'Analyse Marketing Digital</h2>
-      <div className="space-y-4">
-        <div>
-          <h3 className="text-lg font-semibold mb-2">Recommandations :</h3>
-          <ul className="list-disc pl-5">
-            {analysisData.recommendations.map((rec, index) => (
-              <li key={index} className="text-gray-600">{rec}</li>
+    <div className="space-y-6">
+      <div className="border rounded-lg p-6">
+        <h2 className="text-xl font-bold mb-4">Rapport d'Analyse Marketing Digital</h2>
+        
+        {/* Section Force de l'Identité */}
+        <section className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">Force de l'Identité Artistique</h3>
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <div className="mb-4">
+              <div className="flex justify-between mb-1">
+                <span>Score d'identité</span>
+                <span>{analysisData.summary.identityStrength.score}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-blue-500 h-2 rounded-full"
+                  style={{ width: `${analysisData.summary.identityStrength.score}%` }}
+                />
+              </div>
+            </div>
+            <div>
+              <h4 className="font-medium mb-2">Recommandations :</h4>
+              <ul className="list-disc pl-5 space-y-1">
+                {analysisData.summary.identityStrength.recommendations.map((rec, index) => (
+                  <li key={index} className="text-sm text-gray-600">{rec}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Stratégie de Contenu */}
+        <section className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">Stratégie de Contenu</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {analysisData.contentStrategy.pillars.map((pillar, index) => (
+              <div key={index} className="border rounded-lg p-4">
+                <h4 className="font-medium mb-2">{pillar.type}</h4>
+                <p className="text-sm text-gray-600 mb-2">{pillar.frequency}</p>
+                <ul className="list-disc pl-5 text-sm">
+                  {pillar.formats.map((format, idx) => (
+                    <li key={idx}>{format}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
-        </div>
+          </div>
+        </section>
+
+        {/* Section Calendrier de Publication */}
+        <section>
+          <h3 className="text-lg font-semibold mb-2">Calendrier de Publication</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {Object.entries(analysisData.contentStrategy.calendar || {}).map(([day, content]) => (
+              <div key={day} className="border rounded-lg p-4">
+                <h4 className="font-medium capitalize mb-2">{day}</h4>
+                <div className="text-sm">
+                  <p><span className="font-medium">Plateforme:</span> {content.platform}</p>
+                  <p><span className="font-medium">Type:</span> {content.contentType}</p>
+                  <p><span className="font-medium">Format:</span> {content.format}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
 };
-
 const ADNDigitalForm = () => {
   const [openSections, setOpenSections] = useState({
     identite: true,
