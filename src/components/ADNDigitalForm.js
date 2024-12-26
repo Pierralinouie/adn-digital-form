@@ -1,5 +1,26 @@
 const ADNDigitalForm = () => {
-  // ... États existants ...
+  const [openSections, setOpenSections] = useState({
+    identite: true,
+    documents: false
+  });
+
+  const [showReport, setShowReport] = useState(false);
+  const [analysisData, setAnalysisData] = useState(null);
+
+  const [formData, setFormData] = useState({
+    histoire: '',
+    influences: '',
+    processusCreatif: '',
+    styleMusical: '',
+    couleursSignature: ''
+  });
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
 
   const calculateScore = (data) => {
     let score = 0;
@@ -26,37 +47,47 @@ const ADNDigitalForm = () => {
   };
 
   const generateReport = () => {
-    const analysisData = {
+    const newAnalysisData = {
       summary: {
         identityStrength: {
           score: calculateScore(formData),
           recommendations: generateRecommendations(formData)
+        },
+        contentStrategy: {
+          pillars: [
+            {
+              type: "Contenu Musical",
+              frequency: "40%",
+              formats: ["Teasers", "Live sessions", "Clips"]
+            },
+            {
+              type: "Contenu Personnel",
+              frequency: "30%",
+              formats: ["Stories", "Behind-the-scenes", "Q&A"]
+            }
+          ]
         }
       }
     };
+    setAnalysisData(newAnalysisData);
     setShowReport(true);
+  };
+
+  const toggleSection = (section) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
   };
 
   return (
     <div className="space-y-8">
       <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6">
-        {/* ... Reste du formulaire ... */}
-        
-        <div className="flex justify-between pt-6">
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
-          >
-            Enregistrer
-          </button>
-          <button
-            type="button"
-            onClick={generateReport}
-            className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600"
-          >
-            Générer Rapport Marketing
-          </button>
-        </div>
-      </form>
+        <h1 className="text-2xl font-bold mb-6">Formulaire ADN Digital Artiste</h1>
 
-      {showRe
+        <FormSection
+          title="1. Identité Artistique"
+          isOpen={openSections.identite}
+          onToggle={() => toggleSection('identite')}
+        >
+          <Text
