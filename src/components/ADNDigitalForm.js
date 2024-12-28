@@ -1,16 +1,16 @@
-import MarketingReport from './MarketingReport';
-
-
 import React, { useState } from 'react';
 
+// Composants de base
 const FormSection = ({ title, children, isOpen, onToggle }) => (
-  <div className="mb-6 border rounded-lg p-4">
+  <div className="mb-6 border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
     <button
       onClick={onToggle}
       className="flex items-center justify-between w-full text-lg font-semibold mb-4"
     >
-      {title}
-      {isOpen ? '▼' : '▶'}
+      <span>{title}</span>
+      <span className="transform transition-transform duration-200">
+        {isOpen ? '▼' : '▶'}
+      </span>
     </button>
     {isOpen && <div className="space-y-4">{children}</div>}
   </div>
@@ -18,10 +18,10 @@ const FormSection = ({ title, children, isOpen, onToggle }) => (
 
 const TextInput = ({ label, placeholder, value, onChange }) => (
   <div>
-    <label className="block text-sm font-medium mb-1">{label}</label>
+    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
     <input
       type="text"
-      className="w-full p-2 border rounded-md"
+      className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
@@ -31,9 +31,9 @@ const TextInput = ({ label, placeholder, value, onChange }) => (
 
 const TextArea = ({ label, placeholder, value, onChange }) => (
   <div>
-    <label className="block text-sm font-medium mb-1">{label}</label>
+    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
     <textarea
-      className="w-full p-2 border rounded-md h-24"
+      className="w-full p-3 border border-gray-300 rounded-md shadow-sm h-32 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
@@ -43,27 +43,73 @@ const TextArea = ({ label, placeholder, value, onChange }) => (
 
 const FileUpload = ({ label, acceptedTypes, helperText, onFileSelect }) => (
   <div className="space-y-2">
-    <label className="block text-sm font-medium mb-1">{label}</label>
-    {helperText && <p className="text-xs text-gray-500 mb-1">{helperText}</p>}
-    <input
-      type="file"
-      accept={acceptedTypes}
-      onChange={(e) => onFileSelect(e.target.files[0])}
-      className="w-full"
-    />
+    <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+    {helperText && (
+      <p className="text-xs text-gray-500 mb-1">{helperText}</p>
+    )}
+    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+      <input
+        type="file"
+        accept={acceptedTypes}
+        onChange={(e) => onFileSelect(e.target.files[0])}
+        className="hidden"
+        id={`file-${label}`}
+      />
+      <label
+        htmlFor={`file-${label}`}
+        className="cursor-pointer text-blue-600 hover:text-blue-800"
+      >
+        Sélectionner un fichier
+      </label>
+    </div>
   </div>
 );
 
+// Composant principal
 const ADNDigitalForm = () => {
   const [openSections, setOpenSections] = useState({
     identite: true,
-    documents: false,
-    public: false,
-    objectifs: false
+    presence: false,
+    objectifs: false,
+    documents: false
   });
 
-  const [showReport, setShowReport] = useState(false);
-  const [analysisData, setAnalysisData] = useState(null);
+  const [formData, setFormData] = useState({
+    // Identité Artistique
+    histoire: '',
+    influences: '',
+    processusCreatif: '',
+    styleMusical: '',
+    genrePrincipal: '',
+    sousGenres: '',
+    instruments: '',
+    langueChansons: '',
+    themes: '',
+    universVisuel: '',
+    
+    // Présence Digitale
+    plateformesActuelles: '',
+    followersInstagram: '',
+    followersFacebook: '',
+    followersYoutube: '',
+    streamsSpotify: '',
+    streamsAppleMusic: '',
+    streamsDeezer: '',
+    engagementRate: '',
+    
+    // Objectifs
+    objectifsCT: '',
+    objectifsLT: '',
+    territoiresCibles: '',
+    collaborationsVoulues: '',
+    modelesReussite: '',
+    budgetMarketing: '',
+    
+    // Éléments supplémentaires
+    biographie: '',
+    presskit: '',
+    photosPromo: ''
+  });
 
   const [files, setFiles] = useState({
     photo: null,
@@ -74,66 +120,11 @@ const ADNDigitalForm = () => {
     pressKit: null
   });
 
-  const [formData, setFormData] = useState({
-    // Identité Artistique
-    histoire: '',
-    influences: '',
-    processusCreatif: '',
-    styleMusical: '',
-    themes: '',
-    emotion: '',
-    sonSignature: '',
-    universVisuel: '',
-    couleursSignature: '',
-    styleVestimentaire: '',
-    symboles: '',
-    // Détails Musicaux
-    genrePrincipal: '',
-    sousGenres: '',
-    instruments: '',
-    langueChansons: '',
-    nombreTitres: '',
-    frequenceSorties: '',
-    // Présence Actuelle
-    plateformesActuelles: '',
-    followersInstagram: '',
-    followersFacebook: '',
-    followersYoutube: '',
-    streamsSpotify: '',
-    streamsAppleMusic: '',
-    streamsDeezer: '',
-    engagementRate: '',
-    // Objectifs de Carrière
-    objectifsPrincipaux: '',
-    territoiresCibles: '',
-    collaborationsVoulues: '',
-    modelesReussite: ''
-  });
-
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
-  };
-
-  const calculateScore = () => {
-    let score = 0;
-    const fields = Object.keys(formData);
-    fields.forEach(field => {
-      if (formData[field]) score += (100 / fields.length);
-    });
-    return Math.round(score);
-  };
-
-  const generateRecommendations = () => {
-    const recs = [];
-    if (!formData.histoire) recs.push("Développez votre histoire personnelle");
-    if (!formData.styleMusical) recs.push("Définissez votre style musical");
-    if (!formData.genrePrincipal) recs.push("Précisez votre genre musical principal");
-    if (!formData.objectifsPrincipaux) recs.push("Définissez vos objectifs de carrière");
-    if (!formData.plateformesActuelles) recs.push("Listez vos plateformes actuelles");
-    return recs;
   };
 
   const handleFileUpload = (type, file) => {
@@ -143,81 +134,6 @@ const ADNDigitalForm = () => {
     }));
   };
 
-  const generateReport = () => {
-    const newAnalysisData = {
-      summary: {
-        identityStrength: {
-          score: calculateScore(),
-          recommendations: generateRecommendations()
-        },
-        contentStrategy: {
-          pillars: [
-            {
-              type: "Contenu Musical",
-              frequency: "40% du contenu",
-              formats: ["Teasers", "Live sessions", "Clips", "Répétitions"]
-            },
-            {
-              type: "Contenu Personnel",
-              frequency: "30% du contenu",
-              formats: ["Stories quotidiennes", "Behind-the-scenes", "Q&A", "Vlogs"]
-            },
-            {
-              type: "Contenu Éducatif",
-              frequency: "15% du contenu",
-              formats: ["Tutoriels", "Conseils", "Masterclass"]
-            },
-            {
-              type: "Contenu Engageant",
-              frequency: "15% du contenu",
-              formats: ["Challenges", "Sondages", "Lives interactifs"]
-            }
-          ],
-          calendar: {
-            lundi: {
-              platform: "Instagram",
-              contentType: "Behind-the-scenes",
-              format: "Stories"
-            },
-            mercredi: {
-              platform: "TikTok",
-              contentType: "Musical",
-              format: "Short video"
-            },
-            vendredi: {
-              platform: "Toutes plateformes",
-              contentType: "Sortie/Cover",
-              format: "Post + Stories"
-            },
-            dimanche: {
-              platform: "YouTube",
-              contentType: "Long format",
-              format: "Vlog/Tutorial"
-            }
-          }
-        },
-        platformRecommendations: {
-          primary: ["Instagram", "TikTok", "YouTube"],
-          secondary: ["Facebook", "Twitter", "LinkedIn"],
-          posting_frequency: {
-            instagram: "2-3 posts/jour",
-            tiktok: "1-2 videos/jour",
-            youtube: "1-2 videos/semaine"
-          }
-        }
-      }
-    };
-    setAnalysisData(newAnalysisData);
-    setShowReport(true);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Données enregistrées avec succès !');
-    console.log('Données:', formData);
-    console.log('Fichiers:', files);
-  };
-
   const toggleSection = (section) => {
     setOpenSections(prev => ({
       ...prev,
@@ -225,184 +141,192 @@ const ADNDigitalForm = () => {
     }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Ici, vous pouvez ajouter la logique pour envoyer les données vers votre backend
+      console.log('Données du formulaire:', formData);
+      console.log('Fichiers:', files);
+      alert('Formulaire soumis avec succès !');
+    } catch (error) {
+      console.error('Erreur lors de la soumission:', error);
+      alert('Erreur lors de la soumission du formulaire.');
+    }
+  };
+
   return (
-    <div className="space-y-8">
-      <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-6">Formulaire ADN Digital Artiste</h1>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-3xl mx-auto px-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">
+            Formulaire ADN Digital Artiste
+          </h1>
 
-        <FormSection
-          title="1. Identité Artistique"
-          isOpen={openSections.identite}
-          onToggle={() => toggleSection('identite')}
-        >
-          <TextArea
-            label="Quelle est votre histoire personnelle avec la musique ?"
-            placeholder="Racontez votre parcours..."
-            value={formData.histoire}
-            onChange={value => handleInputChange('histoire', value)}
-          />
-          <TextInput
-            label="Quelles sont vos influences musicales majeures ?"
-            placeholder="Artistes, genres, époques..."
-            value={formData.influences}
-            onChange={value => handleInputChange('influences', value)}
-          />
-          <TextArea
-            label="Quel est votre processus créatif ?"
-            placeholder="Décrivez comment vous créez votre musique..."
-            value={formData.processusCreatif}
-            onChange={value => handleInputChange('processusCreatif', value)}
-          />
-          <TextInput
-            label="Comment définiriez-vous votre style musical en 3 mots ?"
-            placeholder="Ex: Électro-Pop Minimaliste Organique"
-            value={formData.styleMusical}
-            onChange={value => handleInputChange('styleMusical', value)}
-          />
-          <TextInput
-            label="Genre musical principal"
-            placeholder="Ex: Hip-Hop, Rock, Électro..."
-            value={formData.genrePrincipal}
-            onChange={value => handleInputChange('genrePrincipal', value)}
-          />
-          <TextInput
-            label="Sous-genres"
-            placeholder="Ex: Trap, Alternative, House..."
-            value={formData.sousGenres}
-            onChange={value => handleInputChange('sousGenres', value)}
-          />
-          <TextInput
-            label="Instruments principaux"
-            placeholder="Ex: Guitare, Piano, Machines..."
-            value={formData.instruments}
-            onChange={value => handleInputChange('instruments', value)}
-          />
-          <TextInput
-            label="Langue des chansons"
-            placeholder="Ex: Français, Anglais..."
-            value={formData.langueChansons}
-            onChange={value => handleInputChange('langueChansons', value)}
-          />
-        </FormSection>
+          {/* Section Identité Artistique */}
+          <FormSection
+            title="1. Identité Artistique"
+            isOpen={openSections.identite}
+            onToggle={() => toggleSection('identite')}
+          >
+            <TextArea
+              label="Quelle est votre histoire personnelle avec la musique ?"
+              placeholder="Racontez votre parcours, vos inspirations initiales..."
+              value={formData.histoire}
+              onChange={(value) => handleInputChange('histoire', value)}
+            />
+            <TextArea
+              label="Quelles sont vos influences musicales majeures ?"
+              placeholder="Artistes, genres, époques qui vous ont marqué..."
+              value={formData.influences}
+              onChange={(value) => handleInputChange('influences', value)}
+            />
+            <TextInput
+              label="Style musical en 3 mots"
+              placeholder="Ex: Électro-Pop Minimaliste Organique"
+              value={formData.styleMusical}
+              onChange={(value) => handleInputChange('styleMusical', value)}
+            />
+            <TextInput
+              label="Genre musical principal"
+              placeholder="Ex: Hip-Hop, Rock, Électro..."
+              value={formData.genrePrincipal}
+              onChange={(value) => handleInputChange('genrePrincipal', value)}
+            />
+            <TextArea
+              label="Thèmes abordés dans vos textes"
+              placeholder="Ex: Amour, Société, Nature..."
+              value={formData.themes}
+              onChange={(value) => handleInputChange('themes', value)}
+            />
+            <TextArea
+              label="Univers visuel"
+              placeholder="Décrivez l'esthétique visuelle de votre projet..."
+              value={formData.universVisuel}
+              onChange={(value) => handleInputChange('universVisuel', value)}
+            />
+          </FormSection>
 
-        <FormSection
-          title="2. Présence Digitale"
-          isOpen={openSections.public}
-          onToggle={() => toggleSection('public')}
-        >
-          <TextInput
-            label="Plateformes actuelles"
-            placeholder="Ex: Instagram, TikTok, YouTube..."
-            value={formData.plateformesActuelles}
-            onChange={value => handleInputChange('plateformesActuelles', value)}
-          />
-          <TextInput
-            label="Followers Instagram"
-            placeholder="Nombre de followers"
-            value={formData.followersInstagram}
-            onChange={value => handleInputChange('followersInstagram', value)}
-          />
-          <TextInput
-            label="Followers Facebook"
-            placeholder="Nombre de followers"
-            value={formData.followersFacebook}
-            onChange={value => handleInputChange('followersFacebook', value)}
-          />
-          <TextInput
-            label="Streams Spotify mensuels"
-            placeholder="Nombre de streams"
-            value={formData.streamsSpotify}
-            onChange={value => handleInputChange('streamsSpotify', value)}
-          />
-        </FormSection>
+          {/* Section Présence Digitale */}
+          <FormSection
+            title="2. Présence Digitale"
+            isOpen={openSections.presence}
+            onToggle={() => toggleSection('presence')}
+          >
+            <TextInput
+              label="Plateformes principales"
+              placeholder="Ex: Instagram, TikTok, YouTube..."
+              value={formData.plateformesActuelles}
+              onChange={(value) => handleInputChange('plateformesActuelles', value)}
+            />
+            <TextInput
+              label="Followers Instagram"
+              placeholder="Nombre de followers"
+              value={formData.followersInstagram}
+              onChange={(value) => handleInputChange('followersInstagram', value)}
+            />
+            <TextInput
+              label="Followers Facebook"
+              placeholder="Nombre de followers"
+              value={formData.followersFacebook}
+              onChange={(value) => handleInputChange('followersFacebook', value)}
+            />
+            <TextInput
+              label="Streams Spotify mensuels"
+              placeholder="Nombre moyen de streams par mois"
+              value={formData.streamsSpotify}
+              onChange={(value) => handleInputChange('streamsSpotify', value)}
+            />
+            <TextInput
+              label="Taux d'engagement moyen"
+              placeholder="Ex: 5%"
+              value={formData.engagementRate}
+              onChange={(value) => handleInputChange('engagementRate', value)}
+            />
+          </FormSection>
 
-        <FormSection
-          title="3. Objectifs"
-          isOpen={openSections.objectifs}
-          onToggle={() => toggleSection('objectifs')}
-        >
-          <TextArea
-            label="Objectifs principaux"
-            placeholder="Décrivez vos objectifs pour les 12 prochains mois..."
-            value={formData.objectifsPrincipaux}
-            onChange={value => handleInputChange('objectifsPrincipaux', value)}
-          />
-          <TextInput
-            label="Territoires ciblés"
-            placeholder="Ex: France, Belgique, Canada..."
-            value={formData.territoiresCibles}
-            onChange={value => handleInputChange('territoiresCibles', value)}
-          />
-          <TextInput
-            label="Collaborations souhaitées"
-            placeholder="Types d'artistes, producteurs..."
-            value={formData.collaborationsVoulues}
-            onChange={value => handleInputChange('collaborationsVoulues', value)}
-          />
-        </FormSection>
+          {/* Section Objectifs */}
+          <FormSection
+            title="3. Objectifs"
+            isOpen={openSections.objectifs}
+            onToggle={() => toggleSection('objectifs')}
+          >
+            <TextArea
+              label="Objectifs court terme (6 mois)"
+              placeholder="Ex: Atteindre 10k followers, Sortir un EP..."
+              value={formData.objectifsCT}
+              onChange={(value) => handleInputChange('objectifsCT', value)}
+            />
+            <TextArea
+              label="Objectifs long terme (2 ans)"
+              placeholder="Ex: Tourner en première partie, Signer avec un label..."
+              value={formData.objectifsLT}
+              onChange={(value) => handleInputChange('objectifsLT', value)}
+            />
+            <TextInput
+              label="Territoires ciblés"
+              placeholder="Ex: France, Belgique, Canada..."
+              value={formData.territoiresCibles}
+              onChange={(value) => handleInputChange('territoiresCibles', value)}
+            />
+            <TextInput
+              label="Budget marketing mensuel"
+              placeholder="Ex: 500€"
+              value={formData.budgetMarketing}
+              onChange={(value) => handleInputChange('budgetMarketing', value)}
+            />
+          </FormSection>
 
-        <FormSection
-          title="4. Documents"
-          isOpen={openSections.documents}
-          onToggle={() => toggleSection('documents')}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Section Documents */}
+          <FormSection
+            title="4. Documents"
+            isOpen={openSections.documents}
+            onToggle={() => toggleSection('documents')}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FileUpload 
+                label="Photo de profil"
+                acceptedTypes="image/*"
+                helperText="Format JPEG ou PNG"
+                onFileSelect={(file) => handleFileUpload('photo', file)}
+              />
+              <FileUpload 
+                label="Logo"
+                acceptedTypes="image/*"
+                helperText="Format PNG recommandé"
+                onFileSelect={(file) => handleFileUpload('logo', file)}
+              />
+            </div>
             <FileUpload 
-              label="Photo de profil" 
-              onFileSelect={file => handleFileUpload('photo', file)} 
-              acceptedTypes="image/*"
+              label="Biographie"
+              acceptedTypes=".doc,.docx,.pdf"
+              helperText="Word ou PDF"
+              onFileSelect={(file) => handleFileUpload('biographie', file)}
             />
             <FileUpload 
-              label="Logo" 
-              onFileSelect={file => handleFileUpload('logo', file)} 
-              acceptedTypes="image/*"
+              label="Press Kit"
+              acceptedTypes=".pdf,.zip"
+              helperText="PDF ou ZIP"
+              onFileSelect={(file) => handleFileUpload('pressKit', file)}
             />
+          </FormSection>
+
+          <div className="flex justify-between pt-8">
+            <button
+              type="submit"
+              className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Enregistrer
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowReport(true)}
+              className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            >
+              Générer Rapport
+            </button>
           </div>
-          <FileUpload 
-            label="Artwork / Visuels" 
-            onFileSelect={file => handleFileUpload('artwork', file)} 
-            acceptedTypes="image/*"
-          />
-          <FileUpload 
-            label="Paroles de chansons" 
-            onFileSelect={file => handleFileUpload('paroles', file)} 
-            acceptedTypes=".doc,.docx,.pdf,.txt"
-            helperText="Formats acceptés: DOC, DOCX, PDF, TXT"
-          />
-          <FileUpload 
-            label="Biographie" 
-            onFileSelect={file => handleFileUpload('biographie', file)} 
-            acceptedTypes=".doc,.docx,.pdf,.txt"
-            helperText="Formats acceptés: DOC, DOCX, PDF, TXT"
-          />
-          <FileUpload 
-            label="Revue de presse / Press Kit" 
-            onFileSelect={file => handleFileUpload('pressKit', file)} 
-            acceptedTypes=".doc,.docx,.pdf,.zip,.rar"
-            helperText="Formats acceptés: DOC, DOCX, PDF, ZIP, RAR"
-          />
-        </FormSection>
-
-        <div className="flex justify-between pt-6">
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
-          >
-            Enregistrer
-          </button>
-          <button
-            type="button"
-            onClick={generateReport}
-            className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600"
-          >
-            Générer Rapport Marketing
-          </button>
-        </div>
-      </form>
-
-      {showReport && analysisData && (
-        <MarketingReport analysisData={analysisData} />
-      )}
+        </form>
+      </div>
     </div>
   );
 };
