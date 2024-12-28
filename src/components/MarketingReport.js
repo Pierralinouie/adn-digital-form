@@ -1,72 +1,126 @@
 import React from 'react';
 
-const MarketingReport = ({ analysisData }) => {
+const MarketingReport = ({ formData }) => {
   return (
-    <div className="space-y-6 bg-white p-8 rounded-lg shadow">
-      <h2 className="text-2xl font-bold">Rapport d'Analyse Marketing Digital</h2>
-      
-      <section>
-        <h3 className="text-xl font-semibold mb-4">Force de l'Identité Artistique</h3>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="mb-4">
-            <div className="flex justify-between mb-1">
-              <span>Score global</span>
-              <span>{analysisData.summary.identityStrength.score}%</span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${analysisData.summary.identityStrength.score}%` }}
-              />
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="font-medium mb-2">Recommandations prioritaires :</h4>
-            <ul className="list-disc pl-5 space-y-1">
-              {analysisData.summary.identityStrength.recommendations.map((rec, index) => (
-                <li key={index} className="text-gray-600">{rec}</li>
-              ))}
-            </ul>
-          </div>
+    <div className="bg-white shadow-lg rounded-lg p-8 mt-8">
+      <h2 className="text-2xl font-bold mb-6">Rapport Marketing Digital</h2>
+
+      {/* Analyse de l'Identité Artistique */}
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-blue-600">1. Identité Artistique</h3>
+        <div className="bg-gray-50 rounded-lg p-6">
+          <h4 className="font-medium mb-3">Points Forts</h4>
+          <ul className="list-disc pl-5 space-y-2">
+            {formData.styleMusical && (
+              <li>Style musical défini : {formData.styleMusical}</li>
+            )}
+            {formData.genrePrincipal && (
+              <li>Genre principal : {formData.genrePrincipal}</li>
+            )}
+            {formData.influences && (
+              <li>Influences bien identifiées</li>
+            )}
+          </ul>
+
+          <h4 className="font-medium mt-4 mb-3">Recommandations</h4>
+          <ul className="list-disc pl-5 space-y-2 text-gray-700">
+            {!formData.histoire && (
+              <li>Développer votre histoire personnelle</li>
+            )}
+            {!formData.universVisuel && (
+              <li>Définir votre univers visuel</li>
+            )}
+            {!formData.themes && (
+              <li>Préciser vos thématiques principales</li>
+            )}
+          </ul>
         </div>
       </section>
 
-      <section>
-        <h3 className="text-xl font-semibold mb-4">Stratégie de Contenu</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {analysisData.summary.contentStrategy.pillars.map((pillar, index) => (
-            <div key={index} className="border rounded-lg p-4">
-              <h4 className="font-medium mb-2">{pillar.type}</h4>
-              <p className="text-sm text-gray-600 mb-2">{pillar.frequency}</p>
-              <ul className="list-disc pl-5 text-sm">
-                {pillar.formats.map((format, idx) => (
-                  <li key={idx}>{format}</li>
-                ))}
+      {/* Analyse de la Présence Digitale */}
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-blue-600">2. Présence Digitale</h3>
+        <div className="bg-gray-50 rounded-lg p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-medium mb-3">État Actuel</h4>
+              <ul className="space-y-2">
+                {formData.followersInstagram && (
+                  <li>Instagram : {formData.followersInstagram} followers</li>
+                )}
+                {formData.followersFacebook && (
+                  <li>Facebook : {formData.followersFacebook} followers</li>
+                )}
+                {formData.streamsSpotify && (
+                  <li>Spotify : {formData.streamsSpotify} streams/mois</li>
+                )}
               </ul>
             </div>
-          ))}
-        </div>
-      </section>
-      
-      <section>
-        <h3 className="text-xl font-semibold mb-4">Calendrier Éditorial</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {Object.entries(analysisData.summary.contentStrategy.calendar).map(([day, content]) => (
-            <div key={day} className="border rounded-lg p-4">
-              <h4 className="font-medium capitalize mb-2">{day}</h4>
-              <div className="text-sm space-y-1">
-                <p><span className="font-medium">Plateforme:</span> {content.platform}</p>
-                <p><span className="font-medium">Type:</span> {content.contentType}</p>
-                <p><span className="font-medium">Format:</span> {content.format}</p>
-              </div>
+            <div>
+              <h4 className="font-medium mb-3">Stratégie Recommandée</h4>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>Publication quotidienne sur Instagram</li>
+                <li>3-4 vidéos par semaine sur TikTok</li>
+                <li>1 contenu long format par semaine</li>
+              </ul>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      {analysisData.summary.platformRecommendations && (
-        <section>
-          <h3 className="text-xl font-semibold mb-4">Recommandations par Plateforme</h3>
-          <div className="space-y-4">
-            <div className="bg-gray-50 p-4 rounded-lg">
+      {/* Plan d'Action */}
+      <section className="mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-blue-600">3. Plan d'Action</h3>
+        <div className="bg-gray-50 rounded-lg p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-medium mb-3">Court Terme (3 mois)</h4>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>Optimisation des profils sociaux</li>
+                <li>Création de contenu régulier</li>
+                <li>Engagement communautaire</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium mb-3">Long Terme (12 mois)</h4>
+              <ul className="list-disc pl-5 space-y-2">
+                <li>Développement de partenariats</li>
+                <li>Campagnes publicitaires ciblées</li>
+                <li>Événements communautaires</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Calendrier Éditorial */}
+      <section>
+        <h3 className="text-xl font-semibold mb-4 text-blue-600">4. Calendrier Éditorial</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-medium mb-2">Lundi</h4>
+            <p className="text-sm">Story Instagram</p>
+            <p className="text-xs text-gray-600">Behind the scenes</p>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-medium mb-2">Mercredi</h4>
+            <p className="text-sm">Post Instagram</p>
+            <p className="text-xs text-gray-600">Photo professionnelle</p>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-medium mb-2">Vendredi</h4>
+            <p className="text-sm">Vidéo TikTok</p>
+            <p className="text-xs text-gray-600">Contenu musical</p>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h4 className="font-medium mb-2">Dimanche</h4>
+            <p className="text-sm">Live Instagram</p>
+            <p className="text-xs text-gray-600">Q&A avec les fans</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default MarketingReport;
