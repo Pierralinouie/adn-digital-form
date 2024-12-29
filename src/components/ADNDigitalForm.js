@@ -79,4 +79,182 @@ const ADNDigitalForm = () => {
   const [formData, setFormData] = useState({
     // Identité Artistique
     histoire: '',
-    influences: ''
+    influences: '',
+    processusCreatif: '',
+    styleMusical: '',
+    themes: '',
+    emotion: '',
+    sonSignature: '',
+    universVisuel: '',
+    couleursSignature: '',
+    styleVestimentaire: '',
+    symboles: '',
+    // Détails Musicaux
+    genrePrincipal: '',
+    sousGenres: '',
+    instruments: '',
+    langueChansons: '',
+    nombreTitres: '',
+    frequenceSorties: '',
+    // Présence Actuelle
+    plateformesActuelles: '',
+    followersInstagram: '',
+    followersFacebook: '',
+    followersYoutube: '',
+    streamsSpotify: '',
+    streamsAppleMusic: '',
+    streamsDeezer: '',
+    engagementRate: '',
+    // Objectifs de Carrière
+    objectifsPrincipaux: '',
+    territoiresCibles: '',
+    collaborationsVoulues: '',
+    modelesReussite: ''
+  });
+
+  const [files, setFiles] = useState({
+    photo: null,
+    logo: null,
+    artwork: null,
+    paroles: null,
+    biographie: null,
+    pressKit: null
+  });
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleFileUpload = (type, file) => {
+    setFiles(prev => ({
+      ...prev,
+      [type]: file
+    }));
+  };
+
+  const toggleSection = (section) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Données:', formData);
+    alert('Formulaire enregistré avec succès !');
+  };
+
+  const generateReport = () => {
+    setShowReport(true);
+  };
+
+  return (
+    <div className="space-y-8">
+      <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-6">Formulaire ADN Digital Artiste</h1>
+
+        {/* Section Identité Artistique */}
+        <FormSection
+          title="1. Identité Artistique"
+          isOpen={openSections.identite}
+          onToggle={() => toggleSection('identite')}
+        >
+          <TextArea
+            label="Quelle est votre histoire personnelle avec la musique ?"
+            placeholder="Racontez votre parcours..."
+            value={formData.histoire}
+            onChange={value => handleInputChange('histoire', value)}
+          />
+          <TextInput
+            label="Quelles sont vos influences musicales majeures ?"
+            placeholder="Artistes, genres, époques..."
+            value={formData.influences}
+            onChange={value => handleInputChange('influences', value)}
+          />
+          <TextArea
+            label="Quel est votre processus créatif ?"
+            placeholder="Décrivez comment vous créez votre musique..."
+            value={formData.processusCreatif}
+            onChange={value => handleInputChange('processusCreatif', value)}
+          />
+          <TextInput
+            label="Genre musical principal"
+            placeholder="Ex: Hip-Hop, Rock, Électro..."
+            value={formData.genrePrincipal}
+            onChange={value => handleInputChange('genrePrincipal', value)}
+          />
+        </FormSection>
+
+        {/* Section Présence Digitale */}
+        <FormSection
+          title="2. Présence Digitale"
+          isOpen={openSections.public}
+          onToggle={() => toggleSection('public')}
+        >
+          <TextInput
+            label="Plateformes actuelles"
+            placeholder="Ex: Instagram, TikTok, YouTube..."
+            value={formData.plateformesActuelles}
+            onChange={value => handleInputChange('plateformesActuelles', value)}
+          />
+          <TextInput
+            label="Followers Instagram"
+            placeholder="Nombre de followers"
+            value={formData.followersInstagram}
+            onChange={value => handleInputChange('followersInstagram', value)}
+          />
+          <TextInput
+            label="Streams Spotify mensuels"
+            placeholder="Nombre de streams"
+            value={formData.streamsSpotify}
+            onChange={value => handleInputChange('streamsSpotify', value)}
+          />
+        </FormSection>
+
+        {/* Section Documents */}
+        <FormSection
+          title="3. Documents"
+          isOpen={openSections.documents}
+          onToggle={() => toggleSection('documents')}
+        >
+          <FileUpload 
+            label="Photo de profil"
+            acceptedTypes="image/*"
+            helperText="Format JPEG ou PNG"
+            onFileSelect={file => handleFileUpload('photo', file)}
+          />
+          <FileUpload 
+            label="Biographie"
+            acceptedTypes=".doc,.docx,.pdf"
+            helperText="Word ou PDF"
+            onFileSelect={file => handleFileUpload('biographie', file)}
+          />
+        </FormSection>
+
+        <div className="flex justify-between pt-6">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
+          >
+            Enregistrer
+          </button>
+          <button
+            type="button"
+            onClick={generateReport}
+            className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600"
+          >
+            Générer Rapport Marketing
+          </button>
+        </div>
+      </form>
+
+      {showReport && <MarketingReport formData={formData} />}
+    </div>
+  );
+};
+
+export default ADNDigitalForm;
