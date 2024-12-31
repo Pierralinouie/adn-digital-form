@@ -49,7 +49,63 @@ const MarketingReport = ({ formData }) => {
         </ul>
       </div>
     </div>
+// Ajout après le dernier div de recommendations
+{/* Stratégie Digital */}
+<div className="mb-8">
+ <h3 className="text-xl font-semibold mb-4">Stratégie Digitale</h3>
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+   <div className="bg-gray-50 p-4 rounded">
+     <h4 className="font-medium mb-2">Contenu Musical (40%)</h4>
+     <ul className="text-sm space-y-1">
+       <li>Teasers: 2-3/semaine</li>
+       <li>Lives: 1/semaine</li>
+       <li>Clips: 1/mois</li>
+     </ul>
+   </div>
+   <div className="bg-gray-50 p-4 rounded">
+     <h4 className="font-medium mb-2">Contenu Personnel (30%)</h4>
+     <ul className="text-sm space-y-1">
+       <li>Stories: 2-3/jour</li>
+       <li>Behind-scenes: 3/semaine</li>
+       <li>Q&A: 1/mois</li>
+     </ul>
+   </div>
+   <div className="bg-gray-50 p-4 rounded">
+     <h4 className="font-medium mb-2">Contenu Engageant (30%)</h4> 
+     <ul className="text-sm space-y-1">
+       <li>Challenges: 1/semaine</li>
+       <li>Sondages: 2/semaine</li>
+       <li>UGC: continu</li>
+     </ul>
+   </div>
+ </div>
+</div>
+
+{/* Plan d'Action */}
+<div className="mb-8">
+ <h3 className="text-xl font-semibold mb-4">Plan d'Action</h3>
+ <div className="space-y-4">
+   <div className="bg-gray-50 p-4 rounded">
+     <h4 className="font-medium mb-2">Actions Immédiates</h4>
+     <ul className="list-disc pl-5 text-sm space-y-1">
+       <li>Optimisation des profils sociaux</li>
+       <li>Création d'un calendrier éditorial</li>
+       <li>Production de contenu initial</li>
+     </ul>
+   </div>
+   <div className="bg-gray-50 p-4 rounded">
+     <h4 className="font-medium mb-2">Objectifs 90 Jours</h4>
+     <ul className="list-disc pl-5 text-sm space-y-1">
+       <li>+30% followers</li>
+       <li>5% taux d'engagement</li>
+       <li>3 collaborations</li>
+     </ul>
+   </div>
+ </div>
+</div>
+
   );
 };
+
 
 export default MarketingReport;
