@@ -158,37 +158,63 @@ const ADNDigitalForm = () => {
         <h1 className="text-2xl font-bold mb-6">Formulaire ADN Digital Artiste</h1>
 
         {/* Section Identité Artistique */}
-        <FormSection
-          title="1. Identité Artistique"
-          isOpen={openSections.identite}
-          onToggle={() => toggleSection('identite')}
-        >
-          <TextArea
-            label="Quelle est votre histoire personnelle avec la musique ?"
-            placeholder="Racontez votre parcours..."
-            value={formData.histoire}
-            onChange={value => handleInputChange('histoire', value)}
-          />
-          <TextInput
-            label="Quelles sont vos influences musicales majeures ?"
-            placeholder="Artistes, genres, époques..."
-            value={formData.influences}
-            onChange={value => handleInputChange('influences', value)}
-          />
-          <TextArea
-            label="Quel est votre processus créatif ?"
-            placeholder="Décrivez comment vous créez votre musique..."
-            value={formData.processusCreatif}
-            onChange={value => handleInputChange('processusCreatif', value)}
-          />
-          <TextInput
-            label="Genre musical principal"
-            placeholder="Ex: Hip-Hop, Rock, Électro..."
-            value={formData.genrePrincipal}
-            onChange={value => handleInputChange('genrePrincipal', value)}
-          />
-        </FormSection>
-
+      <FormSection
+  title="1. Identité Artistique"
+  isOpen={openSections.identite}
+  onToggle={() => toggleSection('identite')}
+>
+  {/* Champs existants */}
+  <TextArea
+    label="Quelle est votre histoire personnelle avec la musique ?"
+    placeholder="Racontez votre parcours..."
+    value={formData.histoire}
+    onChange={value => handleInputChange('histoire', value)}
+  />
+  <TextInput
+    label="Quelles sont vos influences musicales majeures ?"
+    placeholder="Artistes, genres, époques..."
+    value={formData.influences}
+    onChange={value => handleInputChange('influences', value)}
+  />
+  <TextArea
+    label="Quel est votre processus créatif ?"
+    placeholder="Décrivez comment vous créez votre musique..."
+    value={formData.processusCreatif}
+    onChange={value => handleInputChange('processusCreatif', value)}
+  />
+  
+  {/* Nouveaux champs à ajouter */}
+  <TextInput
+    label="Style musical en 3 mots"
+    placeholder="Ex: Électro-Pop Minimaliste Organique"
+    value={formData.styleMusical}
+    onChange={value => handleInputChange('styleMusical', value)}
+  />
+  <TextInput
+    label="Genre musical principal"
+    placeholder="Ex: Hip-Hop, Rock, Électro..."
+    value={formData.genrePrincipal}
+    onChange={value => handleInputChange('genrePrincipal', value)}
+  />
+  <TextInput
+    label="Sous-genres"
+    placeholder="Ex: Trap, Alternative, House..."
+    value={formData.sousGenres}
+    onChange={value => handleInputChange('sousGenres', value)}
+  />
+  <TextInput
+    label="Instruments principaux"
+    placeholder="Ex: Guitare, Piano, Machines..."
+    value={formData.instruments}
+    onChange={value => handleInputChange('instruments', value)}
+  />
+  <TextInput
+    label="Langue des chansons"
+    placeholder="Ex: Français, Anglais..."
+    value={formData.langueChansons}
+    onChange={value => handleInputChange('langueChansons', value)}
+  />
+</FormSection>
         {/* Section Présence Digitale */}
         <FormSection
           title="2. Présence Digitale"
