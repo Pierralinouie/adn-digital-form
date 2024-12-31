@@ -18,6 +18,23 @@ const MarketingReport = ({ formData }) => {
     ].filter(Boolean);
   };
 
+  const generateContentStrategy = () => ({
+    musical: {
+      title: "Contenu Musical (40%)",
+      items: ["Teasers: 2-3/semaine", "Lives: 1/semaine", "Clips: 1/mois"]
+    },
+    personal: {
+      title: "Contenu Personnel (30%)",
+      items: ["Stories: 2-3/jour", "Behind-scenes: 3/semaine", "Q&A: 1/mois"]
+    },
+    engaging: {
+      title: "Contenu Engageant (30%)",
+      items: ["Challenges: 1/semaine", "Sondages: 2/semaine", "UGC: continu"]
+    }
+  });
+
+  const contentStrategy = generateContentStrategy();
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg mt-8">
       <h2 className="text-2xl font-bold mb-6">Rapport Marketing Digital</h2>
@@ -48,34 +65,22 @@ const MarketingReport = ({ formData }) => {
           ))}
         </ul>
       </div>
-    </div>
 
+      {/* Content Strategy */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold mb-4">Stratégie de Contenu</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {Object.values(contentStrategy).map((strategy, index) => (
+            <div key={index} className="bg-gray-50 p-4 rounded">
+              <h4 className="font-medium mb-2">{strategy.title}</h4>
+              <ul className="text-sm space-y-1">
+                {strategy.items.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
 
-{/* Plan d'Action */}
-<div className="mb-8">
- <h3 className="text-xl font-semibold mb-4">Plan d'Action</h3>
- <div className="space-y-4">
-   <div className="bg-gray-50 p-4 rounded">
-     <h4 className="font-medium mb-2">Actions Immédiates</h4>
-     <ul className="list-disc pl-5 text-sm space-y-1">
-       <li>Optimisation des profils sociaux</li>
-       <li>Création d'un calendrier éditorial</li>
-       <li>Production de contenu initial</li>
-     </ul>
-   </div>
-   <div className="bg-gray-50 p-4 rounded">
-     <h4 className="font-medium mb-2">Objectifs 90 Jours</h4>
-     <ul className="list-disc pl-5 text-sm space-y-1">
-       <li>+30% followers</li>
-       <li>5% taux d'engagement</li>
-       <li>3 collaborations</li>
-     </ul>
-   </div>
- </div>
-</div>
-
-  );
-};
-
-
-export default MarketingReport;
+      {/* E
