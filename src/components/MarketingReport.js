@@ -1,126 +1,274 @@
-import React from 'react';
-
 const MarketingReport = ({ formData }) => {
+  // Sections principales du rapport
+  const mainSections = [
+    {
+      title: "1. Analyse Identité de Marque",
+      subsections: [
+        analyzeArtisticIdentity(),
+        analyzeStoryTelling(),
+        analyzeVisualIdentity()
+      ]
+    },
+    {
+      title: "2. Analyse Audience",
+      subsections: [
+        analyzeTargetDemographics(),
+        analyzeCurrentEngagement(),
+        predictGrowthPotential()
+      ]
+    },
+    {
+      title: "3. Stratégie de Contenu",
+      subsections: [
+        generateContentStrategy(),
+        createContentCalendar(),
+        defineContentPillars()
+      ]
+    },
+    {
+      title: "4. Plan d'Action",
+      subsections: [
+        createImmediatePlan(),
+        create90DayPlan(),
+        createAnnualPlan()
+      ]
+    },
+    {
+      title: "5. Budget & ROI",
+      subsections: [
+        analyzeBudgetRequirements(),
+        predictROI(),
+        suggestInvestments()
+      ]
+    }
+  ];
+
+  // Fonctions d'analyse détaillées
+  function analyzeArtisticIdentity() {
+    const identity = {
+      score: calculateIdentityScore(),
+      strengths: [],
+      weaknesses: [],
+      opportunities: [],
+      threats: []
+    };
+
+    // Genre et Style
+    if (formData.genrePrincipal) {
+      identity.strengths.push({
+        category: "Genre musical",
+        detail: formData.genrePrincipal,
+        impact: "Positionnement clair dans le marché"
+      });
+    }
+
+    // Influences
+    if (formData.influences) {
+      identity.strengths.push({
+        category: "Influences",
+        detail: formData.influences,
+        impact: "Richesse artistique et crédibilité"
+      });
+    }
+
+    return {
+      title: "Identité Artistique",
+      data: identity,
+      recommendations: generateIdentityRecommendations(identity)
+    };
+  }
+
+  function analyzeStoryTelling() {
+    const story = {
+      elements: {
+        personalHistory: Boolean(formData.histoire),
+        creativeProcess: Boolean(formData.processusCreatif),
+        vision: Boolean(formData.objectifsPrincipaux)
+      },
+      score: calculateStoryScore(),
+      narrativeStrength: evaluateNarrativeStrength(),
+      keyThemes: extractKeyThemes(),
+      uniqueAngles: identifyUniqueAngles()
+    };
+
+    return {
+      title: "Analyse Narrative",
+      data: story,
+      recommendations: generateStorytellingRecommendations(story)
+    };
+  }
+
+  function generateContentStrategy() {
+    const strategy = {
+      mainPillars: [
+        {
+          type: "Contenu Musical",
+          frequency: "40% du contenu total",
+          formats: [
+            { type: "Teasers", frequency: "2-3 par semaine" },
+            { type: "Sessions live", frequency: "1 par semaine" },
+            { type: "Clips", frequency: "1 par mois" },
+            { type: "Behind-the-scenes", frequency: "3-4 par semaine" }
+          ],
+          platforms: defineOptimalPlatforms("musical"),
+          bestPractices: suggestBestPractices("musical")
+        },
+        {
+          type: "Contenu Personnel",
+          frequency: "30% du contenu total",
+          formats: [
+            { type: "Stories quotidiennes", frequency: "2-3 par jour" },
+            { type: "Vlogs", frequency: "1 par semaine" },
+            { type: "Q&A", frequency: "2 par mois" },
+            { type: "Day in the life", frequency: "1 par semaine" }
+          ],
+          platforms: defineOptimalPlatforms("personal"),
+          bestPractices: suggestBestPractices("personal")
+        },
+        {
+          type: "Contenu Éducatif",
+          frequency: "15% du contenu total",
+          formats: [
+            { type: "Tutoriels", frequency: "1 par semaine" },
+            { type: "Masterclass", frequency: "1 par mois" },
+            { type: "Tips & Tricks", frequency: "2 par semaine" }
+          ],
+          platforms: defineOptimalPlatforms("educational"),
+          bestPractices: suggestBestPractices("educational")
+        },
+        {
+          type: "Contenu Engageant",
+          frequency: "15% du contenu total",
+          formats: [
+            { type: "Challenges", frequency: "1 par semaine" },
+            { type: "Sondages", frequency: "2 par semaine" },
+            { type: "Concours", frequency: "1 par mois" }
+          ],
+          platforms: defineOptimalPlatforms("engaging"),
+          bestPractices: suggestBestPractices("engaging")
+        }
+      ],
+      platformSpecific: generatePlatformSpecificStrategy(),
+      contentMix: optimizeContentMix(),
+      schedule: createDetailedSchedule()
+    };
+
+    return {
+      title: "Stratégie de Contenu",
+      data: strategy,
+      recommendations: generateContentRecommendations(strategy)
+    };
+  }
+
+  function createDetailedSchedule() {
+    return {
+      daily: {
+        instagram: [
+          { time: "10:00", type: "Story", content: "Behind-the-scenes" },
+          { time: "13:00", type: "Reel", content: "Teaser musical" },
+          { time: "17:00", type: "Post", content: "Photo/Contenu principal" },
+          { time: "20:00", type: "Story", content: "Interaction fans" }
+        ],
+        tiktok: [
+          { time: "12:00", type: "Vidéo", content: "Trend participation" },
+          { time: "19:00", type: "Live", content: "Session questions/réponses" }
+        ]
+      },
+      weekly: {
+        monday: { focus: "Nouveautés", platforms: ["Instagram", "TikTok"] },
+        wednesday: { focus: "Éducatif", platforms: ["YouTube", "Instagram"] },
+        friday: { focus: "Performance", platforms: ["All"] },
+        sunday: { focus: "Lifestyle", platforms: ["Instagram", "TikTok"] }
+      },
+      monthly: planMonthlyContent()
+    };
+  }
+
+  // Rendu du rapport
   return (
-    <div className="bg-white shadow-lg rounded-lg p-8 mt-8">
-      <h2 className="text-2xl font-bold mb-6">Rapport Marketing Digital</h2>
-
-      {/* Analyse de l'Identité Artistique */}
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-4 text-blue-600">1. Identité Artistique</h3>
-        <div className="bg-gray-50 rounded-lg p-6">
-          <h4 className="font-medium mb-3">Points Forts</h4>
-          <ul className="list-disc pl-5 space-y-2">
-            {formData.styleMusical && (
-              <li>Style musical défini : {formData.styleMusical}</li>
-            )}
-            {formData.genrePrincipal && (
-              <li>Genre principal : {formData.genrePrincipal}</li>
-            )}
-            {formData.influences && (
-              <li>Influences bien identifiées</li>
-            )}
-          </ul>
-
-          <h4 className="font-medium mt-4 mb-3">Recommandations</h4>
-          <ul className="list-disc pl-5 space-y-2 text-gray-700">
-            {!formData.histoire && (
-              <li>Développer votre histoire personnelle</li>
-            )}
-            {!formData.universVisuel && (
-              <li>Définir votre univers visuel</li>
-            )}
-            {!formData.themes && (
-              <li>Préciser vos thématiques principales</li>
-            )}
-          </ul>
+    <div className="bg-white p-8 rounded-lg shadow-lg space-y-12">
+      {/* En-tête du rapport */}
+      <header className="border-b pb-6">
+        <h2 className="text-3xl font-bold text-gray-900">Rapport Marketing Digital Détaillé</h2>
+        <p className="mt-2 text-gray-600">Analyse et Recommandations Personnalisées</p>
+        <div className="mt-4 grid grid-cols-3 gap-4">
+          <ScoreCard 
+            title="Score Global" 
+            score={calculateOverallScore()} 
+            detail="Basé sur l'analyse complète"
+          />
+          <ScoreCard 
+            title="Potentiel de Croissance" 
+            score={calculateGrowthPotential()} 
+            detail="Sur les 12 prochains mois"
+          />
+          <ScoreCard 
+            title="Indice de Maturité Digitale" 
+            score={calculateDigitalMaturity()} 
+            detail="État actuel de la présence en ligne"
+          />
         </div>
-      </section>
+      </header>
 
-      {/* Analyse de la Présence Digitale */}
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-4 text-blue-600">2. Présence Digitale</h3>
-        <div className="bg-gray-50 rounded-lg p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-3">État Actuel</h4>
-              <ul className="space-y-2">
-                {formData.followersInstagram && (
-                  <li>Instagram : {formData.followersInstagram} followers</li>
-                )}
-                {formData.followersFacebook && (
-                  <li>Facebook : {formData.followersFacebook} followers</li>
-                )}
-                {formData.streamsSpotify && (
-                  <li>Spotify : {formData.streamsSpotify} streams/mois</li>
-                )}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-3">Stratégie Recommandée</h4>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Publication quotidienne sur Instagram</li>
-                <li>3-4 vidéos par semaine sur TikTok</li>
-                <li>1 contenu long format par semaine</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Corps du rapport */}
+      {mainSections.map((section, index) => (
+        <Section
+          key={index}
+          title={section.title}
+          subsections={section.subsections}
+        />
+      ))}
 
-      {/* Plan d'Action */}
-      <section className="mb-8">
-        <h3 className="text-xl font-semibold mb-4 text-blue-600">3. Plan d'Action</h3>
-        <div className="bg-gray-50 rounded-lg p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-medium mb-3">Court Terme (3 mois)</h4>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Optimisation des profils sociaux</li>
-                <li>Création de contenu régulier</li>
-                <li>Engagement communautaire</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium mb-3">Long Terme (12 mois)</h4>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Développement de partenariats</li>
-                <li>Campagnes publicitaires ciblées</li>
-                <li>Événements communautaires</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Plan d'action final */}
+      <FinalActionPlan />
 
-      {/* Calendrier Éditorial */}
-      <section>
-        <h3 className="text-xl font-semibold mb-4 text-blue-600">4. Calendrier Éditorial</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="font-medium mb-2">Lundi</h4>
-            <p className="text-sm">Story Instagram</p>
-            <p className="text-xs text-gray-600">Behind the scenes</p>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="font-medium mb-2">Mercredi</h4>
-            <p className="text-sm">Post Instagram</p>
-            <p className="text-xs text-gray-600">Photo professionnelle</p>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="font-medium mb-2">Vendredi</h4>
-            <p className="text-sm">Vidéo TikTok</p>
-            <p className="text-xs text-gray-600">Contenu musical</p>
-          </div>
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="font-medium mb-2">Dimanche</h4>
-            <p className="text-sm">Live Instagram</p>
-            <p className="text-xs text-gray-600">Q&A avec les fans</p>
-          </div>
-        </div>
-      </section>
+      {/* Prévisions et KPIs */}
+      <Forecasting />
     </div>
   );
 };
+
+// Composants d'affichage
+const Section = ({ title, subsections }) => (
+  <section className="border-b pb-8">
+    <h3 className="text-2xl font-semibold text-gray-800 mb-6">{title}</h3>
+    <div className="space-y-6">
+      {subsections.map((subsection, index) => (
+        <SubSection
+          key={index}
+          title={subsection.title}
+          data={subsection.data}
+          recommendations={subsection.recommendations}
+        />
+      ))}
+    </div>
+  </section>
+);
+
+const SubSection = ({ title, data, recommendations }) => (
+  <div className="bg-gray-50 rounded-lg p-6">
+    <h4 className="text-xl font-medium text-gray-800 mb-4">{title}</h4>
+    <div className="space-y-4">
+      <DataVisualization data={data} />
+      <Recommendations items={recommendations} />
+    </div>
+  </div>
+);
+
+const ScoreCard = ({ title, score, detail }) => (
+  <div className="bg-gray-50 p-4 rounded-lg">
+    <h4 className="font-medium text-gray-700">{title}</h4>
+    <div className="mt-2 flex items-center">
+      <div className="w-full bg-gray-200 rounded-full h-2 mr-2">
+        <div
+          className="bg-blue-600 rounded-full h-2"
+          style={{ width: `${score}%` }}
+        />
+      </div>
+      <span className="font-semibold text-gray-900">{score}%</span>
+    </div>
+    <p className="mt-2 text-xs text-gray-500">{detail}</p>
+  </div>
+);
 
 export default MarketingReport;
