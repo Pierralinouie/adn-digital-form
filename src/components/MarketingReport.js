@@ -1,273 +1,170 @@
 const MarketingReport = ({ formData }) => {
-  // Sections principales du rapport
-  const mainSections = [
+  const scores = {
+    identityScore: calculateIdentityScore(),
+    digitalPresence: calculateDigitalScore(),
+    contentQuality: calculateContentScore()
+  };
+
+  const sections = [
     {
-      title: "1. Analyse Identité de Marque",
-      subsections: [
-        analyzeArtisticIdentity(),
-        analyzeStoryTelling(),
-        analyzeVisualIdentity()
-      ]
+      title: "1. Analyse de l'Identité de Marque",
+      content: {
+        scoreDetails: analyzeIdentityDetails(),
+        marketPosition: determineMarketPosition(),
+        uniqueValue: defineUniqueValue(),
+        targetAudience: analyzeTargetAudience()
+      }
     },
     {
-      title: "2. Analyse Audience",
-      subsections: [
-        analyzeTargetDemographics(),
-        analyzeCurrentEngagement(),
-        predictGrowthPotential()
-      ]
+      title: "2. Stratégie Digitale",
+      content: {
+        platformStrategy: definePlatformStrategy(),
+        contentPlan: createContentPlan(),
+        engagementTactics: defineEngagementTactics(),
+        growthPlan: createGrowthPlan()
+      }
     },
     {
-      title: "3. Stratégie de Contenu",
-      subsections: [
-        generateContentStrategy(),
-        createContentCalendar(),
-        defineContentPillars()
-      ]
-    },
-    {
-      title: "4. Plan d'Action",
-      subsections: [
-        createImmediatePlan(),
-        create90DayPlan(),
-        createAnnualPlan()
-      ]
-    },
-    {
-      title: "5. Budget & ROI",
-      subsections: [
-        analyzeBudgetRequirements(),
-        predictROI(),
-        suggestInvestments()
-      ]
+      title: "3. Plan d'Action",
+      content: {
+        immediate: defineImmediateActions(),
+        shortTerm: defineShortTermActions(),
+        longTerm: defineLongTermActions(),
+        budget: createBudgetPlan()
+      }
     }
   ];
 
   // Fonctions d'analyse détaillées
-  function analyzeArtisticIdentity() {
-    const identity = {
-      score: calculateIdentityScore(),
-      strengths: [],
-      weaknesses: [],
-      opportunities: [],
-      threats: []
+  function analyzeIdentityDetails() {
+    const details = {
+      style: {
+        score: formData.styleMusical ? 20 : 0,
+        strengths: [],
+        improvements: []
+      },
+      story: {
+        score: formData.histoire ? 20 : 0,
+        strengths: [],
+        improvements: []
+      },
+      uniqueness: {
+        score: calculateUniquenessScore(),
+        elements: []
+      }
     };
-
-    // Genre et Style
-    if (formData.genrePrincipal) {
-      identity.strengths.push({
-        category: "Genre musical",
-        detail: formData.genrePrincipal,
-        impact: "Positionnement clair dans le marché"
-      });
+    
+    // Analyse du style musical
+    if (formData.styleMusical) {
+      details.style.strengths.push(`Style musical bien défini: ${formData.styleMusical}`);
+    } else {
+      details.style.improvements.push("Définir un style musical unique");
     }
 
-    // Influences
-    if (formData.influences) {
-      identity.strengths.push({
-        category: "Influences",
-        detail: formData.influences,
-        impact: "Richesse artistique et crédibilité"
-      });
-    }
+    return details;
+  }
 
+  function determineMarketPosition() {
     return {
-      title: "Identité Artistique",
-      data: identity,
-      recommendations: generateIdentityRecommendations(identity)
+      genre: formData.genrePrincipal,
+      competitors: suggestCompetitors(),
+      opportunities: identifyOpportunities(),
+      threats: identifyThreats()
     };
   }
 
-  function analyzeStoryTelling() {
-    const story = {
-      elements: {
-        personalHistory: Boolean(formData.histoire),
-        creativeProcess: Boolean(formData.processusCreatif),
-        vision: Boolean(formData.objectifsPrincipaux)
-      },
-      score: calculateStoryScore(),
-      narrativeStrength: evaluateNarrativeStrength(),
-      keyThemes: extractKeyThemes(),
-      uniqueAngles: identifyUniqueAngles()
-    };
-
+  function createContentPlan() {
     return {
-      title: "Analyse Narrative",
-      data: story,
-      recommendations: generateStorytellingRecommendations(story)
+      weekly: generateWeeklyPlan(),
+      monthly: generateMonthlyPlan(),
+      contentTypes: defineContentTypes(),
+      formats: suggestFormats()
     };
   }
 
-  function generateContentStrategy() {
-    const strategy = {
-      mainPillars: [
-        {
-          type: "Contenu Musical",
-          frequency: "40% du contenu total",
-          formats: [
-            { type: "Teasers", frequency: "2-3 par semaine" },
-            { type: "Sessions live", frequency: "1 par semaine" },
-            { type: "Clips", frequency: "1 par mois" },
-            { type: "Behind-the-scenes", frequency: "3-4 par semaine" }
-          ],
-          platforms: defineOptimalPlatforms("musical"),
-          bestPractices: suggestBestPractices("musical")
-        },
-        {
-          type: "Contenu Personnel",
-          frequency: "30% du contenu total",
-          formats: [
-            { type: "Stories quotidiennes", frequency: "2-3 par jour" },
-            { type: "Vlogs", frequency: "1 par semaine" },
-            { type: "Q&A", frequency: "2 par mois" },
-            { type: "Day in the life", frequency: "1 par semaine" }
-          ],
-          platforms: defineOptimalPlatforms("personal"),
-          bestPractices: suggestBestPractices("personal")
-        },
-        {
-          type: "Contenu Éducatif",
-          frequency: "15% du contenu total",
-          formats: [
-            { type: "Tutoriels", frequency: "1 par semaine" },
-            { type: "Masterclass", frequency: "1 par mois" },
-            { type: "Tips & Tricks", frequency: "2 par semaine" }
-          ],
-          platforms: defineOptimalPlatforms("educational"),
-          bestPractices: suggestBestPractices("educational")
-        },
-        {
-          type: "Contenu Engageant",
-          frequency: "15% du contenu total",
-          formats: [
-            { type: "Challenges", frequency: "1 par semaine" },
-            { type: "Sondages", frequency: "2 par semaine" },
-            { type: "Concours", frequency: "1 par mois" }
-          ],
-          platforms: defineOptimalPlatforms("engaging"),
-          bestPractices: suggestBestPractices("engaging")
-        }
-      ],
-      platformSpecific: generatePlatformSpecificStrategy(),
-      contentMix: optimizeContentMix(),
-      schedule: createDetailedSchedule()
-    };
-
-    return {
-      title: "Stratégie de Contenu",
-      data: strategy,
-      recommendations: generateContentRecommendations(strategy)
-    };
-  }
-
-  function createDetailedSchedule() {
-    return {
-      daily: {
-        instagram: [
-          { time: "10:00", type: "Story", content: "Behind-the-scenes" },
-          { time: "13:00", type: "Reel", content: "Teaser musical" },
-          { time: "17:00", type: "Post", content: "Photo/Contenu principal" },
-          { time: "20:00", type: "Story", content: "Interaction fans" }
-        ],
-        tiktok: [
-          { time: "12:00", type: "Vidéo", content: "Trend participation" },
-          { time: "19:00", type: "Live", content: "Session questions/réponses" }
-        ]
-      },
-      weekly: {
-        monday: { focus: "Nouveautés", platforms: ["Instagram", "TikTok"] },
-        wednesday: { focus: "Éducatif", platforms: ["YouTube", "Instagram"] },
-        friday: { focus: "Performance", platforms: ["All"] },
-        sunday: { focus: "Lifestyle", platforms: ["Instagram", "TikTok"] }
-      },
-      monthly: planMonthlyContent()
-    };
-  }
-
-  // Rendu du rapport
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg space-y-12">
-      {/* En-tête du rapport */}
-      <header className="border-b pb-6">
-        <h2 className="text-3xl font-bold text-gray-900">Rapport Marketing Digital Détaillé</h2>
-        <p className="mt-2 text-gray-600">Analyse et Recommandations Personnalisées</p>
-        <div className="mt-4 grid grid-cols-3 gap-4">
-          <ScoreCard 
-            title="Score Global" 
-            score={calculateOverallScore()} 
-            detail="Basé sur l'analyse complète"
-          />
-          <ScoreCard 
-            title="Potentiel de Croissance" 
-            score={calculateGrowthPotential()} 
-            detail="Sur les 12 prochains mois"
-          />
-          <ScoreCard 
-            title="Indice de Maturité Digitale" 
-            score={calculateDigitalMaturity()} 
-            detail="État actuel de la présence en ligne"
-          />
+    <div className="bg-white p-8 rounded-lg shadow-lg">
+      <h2 className="text-3xl font-bold mb-8">Rapport d'Analyse Marketing Digital</h2>
+      
+      {sections.map((section, index) => (
+        <div key={index} className="mb-12">
+          <h3 className="text-2xl font-semibold mb-6 text-blue-800">{section.title}</h3>
+          
+          {section.title === "1. Analyse de l'Identité de Marque" && (
+            <IdentityAnalysisSection 
+              data={section.content} 
+              scores={scores}
+            />
+          )}
+          
+          {section.title === "2. Stratégie Digitale" && (
+            <DigitalStrategySection 
+              data={section.content}
+              formData={formData}
+            />
+          )}
+          
+          {section.title === "3. Plan d'Action" && (
+            <ActionPlanSection 
+              data={section.content}
+              scores={scores}
+            />
+          )}
         </div>
-      </header>
-
-      {/* Corps du rapport */}
-      {mainSections.map((section, index) => (
-        <Section
-          key={index}
-          title={section.title}
-          subsections={section.subsections}
-        />
       ))}
-
-      {/* Plan d'action final */}
-      <FinalActionPlan />
-
-      {/* Prévisions et KPIs */}
-      <Forecasting />
+      
+      <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+        <h4 className="font-semibold mb-2">Prochaines étapes recommandées</h4>
+        <ul className="list-disc pl-5 space-y-2">
+          {generateNextSteps().map((step, index) => (
+            <li key={index} className="text-gray-700">{step}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
-// Composants d'affichage
-const Section = ({ title, subsections }) => (
-  <section className="border-b pb-8">
-    <h3 className="text-2xl font-semibold text-gray-800 mb-6">{title}</h3>
-    <div className="space-y-6">
-      {subsections.map((subsection, index) => (
-        <SubSection
-          key={index}
-          title={subsection.title}
-          data={subsection.data}
-          recommendations={subsection.recommendations}
-        />
-      ))}
-    </div>
-  </section>
-);
-
-const SubSection = ({ title, data, recommendations }) => (
-  <div className="bg-gray-50 rounded-lg p-6">
-    <h4 className="text-xl font-medium text-gray-800 mb-4">{title}</h4>
-    <div className="space-y-4">
-      <DataVisualization data={data} />
-      <Recommendations items={recommendations} />
-    </div>
+// Composants de section spécialisés
+const IdentityAnalysisSection = ({ data, scores }) => (
+  <div className="space-y-6">
+    <ScoreCard score={scores.identityScore} title="Score d'Identité" />
+    <StrengthsWeaknesses data={data.scoreDetails} />
+    <MarketPositioning data={data.marketPosition} />
+    <UniqueValueProposition data={data.uniqueValue} />
   </div>
 );
 
-const ScoreCard = ({ title, score, detail }) => (
+const DigitalStrategySection = ({ data, formData }) => (
+  <div className="space-y-6">
+    <PlatformStrategy data={data.platformStrategy} />
+    <ContentCalendar data={data.contentPlan} />
+    <EngagementTactics data={data.engagementTactics} />
+    <GrowthProjections data={data.growthPlan} />
+  </div>
+);
+
+const ActionPlanSection = ({ data, scores }) => (
+  <div className="space-y-6">
+    <TimelineActions data={data} />
+    <BudgetBreakdown data={data.budget} />
+    <KPITargets scores={scores} />
+  </div>
+);
+
+// Sous-composants utilitaires
+const ScoreCard = ({ score, title }) => (
   <div className="bg-gray-50 p-4 rounded-lg">
-    <h4 className="font-medium text-gray-700">{title}</h4>
-    <div className="mt-2 flex items-center">
-      <div className="w-full bg-gray-200 rounded-full h-2 mr-2">
+    <h4 className="font-medium mb-2">{title}</h4>
+    <div className="flex items-center">
+      <div className="w-full bg-gray-200 rounded-full h-2 mr-4">
         <div
           className="bg-blue-600 rounded-full h-2"
           style={{ width: `${score}%` }}
         />
       </div>
-      <span className="font-semibold text-gray-900">{score}%</span>
+      <span className="font-semibold">{score}%</span>
     </div>
-    <p className="mt-2 text-xs text-gray-500">{detail}</p>
   </div>
 );
 
