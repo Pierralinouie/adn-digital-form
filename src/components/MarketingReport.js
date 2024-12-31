@@ -43,18 +43,7 @@ const MarketingReport = ({ formData }) => {
        </ul>
      </div>
    </div>
- // Après le div des recommandations
-<div className="mb-8">
-  <h3 className="text-xl font-semibold mb-4">Stratégie de Contenu</h3>
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div className="bg-gray-50 p-4 rounded">
-      <h4 className="font-medium mb-2">Contenu Musical (40%)</h4>
-      <ul className="text-sm space-y-1">
-        <li>Teasers: 2-3/semaine</li>
-        <li>Lives: 1/semaine</li>
-        <li>Clips: 1/mois</li>
-      </ul>
-    </div>
+
 
  );
 };
