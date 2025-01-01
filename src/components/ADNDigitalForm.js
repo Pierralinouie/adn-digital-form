@@ -56,13 +56,11 @@ const FileUpload = ({ label, acceptedTypes, helperText, onFileSelect }) => (
  </div>
 );
 const generatePDF = () => {
-  setShowReport(true);
-  setTimeout(() => {
-    const content = document.getElementById('marketing-report');
-    if (content) {
-      window.print();
-    }
-  }, 100);
+  setShowReport(true); // Affiche d'abord le rapport
+  const handlePrint = () => {
+    window.print(); // Lance l'impression
+  };
+  handlePrint();
 };
 
 const ADNDigitalForm = () => {
@@ -214,8 +212,8 @@ const ADNDigitalForm = () => {
          </button>
         // Remplacer le bouton existant par
 <button
-  type="button" 
-  onClick={() => generatePDF()}
+  type="button"
+  onClick={generatePDF}
   className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
 >
   Enregistrer le rapport
