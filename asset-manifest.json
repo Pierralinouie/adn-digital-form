@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/adn-digital-form/static/css/main.ee9824e1.css",
-    "main.js": "/adn-digital-form/static/js/main.ba493f3f.js",
+    "main.js": "/adn-digital-form/static/js/main.88af5626.js",
     "index.html": "/adn-digital-form/index.html",
     "main.ee9824e1.css.map": "/adn-digital-form/static/css/main.ee9824e1.css.map",
-    "main.ba493f3f.js.map": "/adn-digital-form/static/js/main.ba493f3f.js.map"
+    "main.88af5626.js.map": "/adn-digital-form/static/js/main.88af5626.js.map"
   },
   "entrypoints": [
     "static/css/main.ee9824e1.css",
-    "static/js/main.ba493f3f.js"
+    "static/js/main.88af5626.js"
   ]
 }
