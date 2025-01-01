@@ -55,6 +55,15 @@ const FileUpload = ({ label, acceptedTypes, helperText, onFileSelect }) => (
    </div>
  </div>
 );
+const generatePDF = () => {
+  setShowReport(true);
+  setTimeout(() => {
+    const content = document.getElementById('marketing-report');
+    if (content) {
+      window.print();
+    }
+  }, 100);
+};
 
 const ADNDigitalForm = () => {
  const [openSections, setOpenSections] = useState({
