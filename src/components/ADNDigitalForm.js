@@ -79,11 +79,28 @@ const ADNDigitalForm = () => {
    streamsSpotify: ''
  });
 
+ const [files, setFiles] = useState({
+   photo: null,
+   logo: null,
+   artwork: null,
+   paroles: null,
+   biographie: null,
+   pressKit: null
+ });
+
  const handleInputChange = (field, value) => {
    setFormData(prev => ({
      ...prev,
      [field]: value
    }));
+ };
+
+ const handleSubmit = (e) => {
+   e.preventDefault();
+   localStorage.setItem('formData', JSON.stringify(formData));
+   localStorage.setItem('files', JSON.stringify(files));
+   alert('Les données ont été enregistrées !');
+   console.log('Données enregistrées:', formData);
  };
 
  const generatePDF = () => {
@@ -102,7 +119,7 @@ const ADNDigitalForm = () => {
 
  return (
    <div className="space-y-8">
-     <form className="max-w-3xl mx-auto p-6">
+     <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6">
        <h1 className="text-2xl font-bold mb-6">Formulaire ADN Digital Artiste</h1>
 
        <FormSection
@@ -182,27 +199,26 @@ const ADNDigitalForm = () => {
            label="Photo de profil"
            acceptedTypes="image/*"
            helperText="Format JPEG ou PNG"
-           onFileSelect={(file) => console.log('Photo uploaded:', file)}
+           onFileSelect={(file) => setFiles(prev => ({...prev, photo: file}))}
          />
          <FileUpload 
            label="Biographie"
            acceptedTypes=".doc,.docx,.pdf"
            helperText="Word ou PDF"
-           onFileSelect={(file) => console.log('Bio uploaded:', file)}
+           onFileSelect={(file) => setFiles(prev => ({...prev, biographie: file}))}
          />
        </FormSection>
 
        <div className="flex justify-between pt-6">
          <button
-           type="button"
-           onClick={generatePDF}
+           type="submit"
            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
          >
-           Enregistrer le rapport
+           Enregistrer les données
          </button>
          <button
            type="button"
-           onClick={() => setShowReport(true)}
+           onClick={generatePDF}
            className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600"
          >
            Générer Rapport Marketing
