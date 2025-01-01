@@ -177,14 +177,7 @@ const ADNDigitalForm = () => {
   />
 </FormSection>
 
-Ajoutez ces champs supplémentaires dans votre composant ADNDigitalForm.
-Claude can make mistakes. Please double-check responses.
 
-
-
-
-            
-       </FormSection>
 
        <FormSection
          title="2. Présence Digitale"
