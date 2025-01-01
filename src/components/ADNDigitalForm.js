@@ -157,6 +157,33 @@ const ADNDigitalForm = () => {
            value={formData.genrePrincipal}
            onChange={value => handleInputChange('genrePrincipal', value)}
          />
+            <TextInput
+    label="Sous-genres"
+    placeholder="Ex: Trap, Alternative, House..."
+    value={formData.sousGenres}
+    onChange={value => handleInputChange('sousGenres', value)}
+  />
+  <TextInput
+    label="Instruments principaux"
+    placeholder="Ex: Guitare, Piano, Machines..."
+    value={formData.instruments}
+    onChange={value => handleInputChange('instruments', value)}
+  />
+  <TextInput
+    label="Langue des chansons"
+    placeholder="Ex: Français, Anglais..."
+    value={formData.langueChansons}
+    onChange={value => handleInputChange('langueChansons', value)}
+  />
+</FormSection>
+
+Ajoutez ces champs supplémentaires dans votre composant ADNDigitalForm.
+Claude can make mistakes. Please double-check responses.
+
+
+
+
+            
        </FormSection>
 
        <FormSection
