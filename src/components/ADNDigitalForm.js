@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MarketingReport from './MarketingReport';
 
-// Composants de base
 const FormSection = ({ title, children, isOpen, onToggle }) => (
  <div className="mb-6 border rounded-lg p-4">
    <button onClick={onToggle} className="flex items-center justify-between w-full text-lg font-semibold mb-4">
@@ -55,13 +54,6 @@ const FileUpload = ({ label, acceptedTypes, helperText, onFileSelect }) => (
    </div>
  </div>
 );
-const generatePDF = () => {
-  setShowReport(true); // Affiche d'abord le rapport
-  const handlePrint = () => {
-    window.print(); // Lance l'impression
-  };
-  handlePrint();
-};
 
 const ADNDigitalForm = () => {
  const [openSections, setOpenSections] = useState({
@@ -94,14 +86,11 @@ const ADNDigitalForm = () => {
    }));
  };
 
- const handleSubmit = (e) => {
-   e.preventDefault();
-   console.log('Données du formulaire:', formData);
-   alert('Formulaire enregistré !');
- };
-
- const generateReport = () => {
+ const generatePDF = () => {
    setShowReport(true);
+   setTimeout(() => {
+     window.print();
+   }, 100);
  };
 
  const toggleSection = (section) => {
@@ -113,7 +102,7 @@ const ADNDigitalForm = () => {
 
  return (
    <div className="space-y-8">
-     <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6">
+     <form className="max-w-3xl mx-auto p-6">
        <h1 className="text-2xl font-bold mb-6">Formulaire ADN Digital Artiste</h1>
 
        <FormSection
@@ -205,19 +194,19 @@ const ADNDigitalForm = () => {
 
        <div className="flex justify-between pt-6">
          <button
-           type="submit"
+           type="button"
+           onClick={generatePDF}
            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
          >
-           Enregistrer
+           Enregistrer le rapport
          </button>
-        // Remplacer le bouton existant par
-<button
-  type="button"
-  onClick={generatePDF}
-  className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
->
-  Enregistrer le rapport
-</button>
+         <button
+           type="button"
+           onClick={() => setShowReport(true)}
+           className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600"
+         >
+           Générer Rapport Marketing
+         </button>
        </div>
      </form>
 
