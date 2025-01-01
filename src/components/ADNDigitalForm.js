@@ -203,13 +203,14 @@ const ADNDigitalForm = () => {
          >
            Enregistrer
          </button>
-         <button
-           type="button"
-           onClick={generateReport}
-           className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600"
-         >
-           Générer Rapport Marketing
-         </button>
+        // Remplacer le bouton existant par
+<button
+  type="button" 
+  onClick={() => generatePDF()}
+  className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600"
+>
+  Enregistrer le rapport
+</button>
        </div>
      </form>
 
